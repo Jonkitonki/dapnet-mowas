@@ -25,11 +25,11 @@ curl -s https://warnung.bund.de/bbk.mowas/gefahrendurchsagen.json | jq -r '.[] |
 # filtert nach Meldungen, die nicht Corona beinhalten für Düsseldorf
 curl -s https://warnung.bund.de/bbk.mowas/gefahrendurchsagen.json | jq -r '.[] | select(.info[].headline | contains("Corona") | not ) | select(.info[].area[].geocode[].valueName=="Düsseldorf") | .info[].headline'
 
-# funktioniert, error 80 zeichen
+# funktioniert, Datum in Pipe
  curl https://warnung.bund.de/bbk.mowas/gefahrendurchsagen.json | jq  '.[] | select(.info[].area[].geocode[].valueName=="Vulkaneifel") | {Datum:.sent}' | curl -H "Content-Type: application/json" -X POST -u CALLSIGN:PASSWD -d '{ "text": "'"${Datum}"'", "callSignNames": ["CALLSIGN"], "transmitterGroupNames": ["dl-all"], "emergency": false }' http://www.hampager.de:8080/calls
 
-#Datum in Pipe
-curl -H "Content-Type: application/json" -X POST -u USER:PASSWD -d '{ "text": "CALLSIGN: Das ist eine Sendung über die REST-API", "callSignNames": ["CALLSIGN"], "transmitterGroupNames": ["dl-all"], "emergency": false }' http://www.hampager.de:8080/calls
+# Sendebefehle
+curl -H "Content-Type: application/json" -X POST -u USER:PASSWD -d '{ "text": "FROMCALLSIGN: Das ist eine Sendung über die REST-API", "callSignNames": ["CALLSIGN"], "transmitterGroupNames": ["dl-all"], "emergency": false }' http://www.hampager.de:8080/calls
 
 curl -H "Content-Type: application/json" -X POST -u USER:PASSWD -d '{ "text": --data "@test.json", "callSignNames": ["CALLSIGN"], "transmitterGroupNames": ["dl-all"], "emergency": false }' http://http://www.hampager.de:8080/calls
 

@@ -1,5 +1,7 @@
 # dapnet-mowas
 
+Dieses Projekt wurde ins Leben gerufen, um eine lokale Gruppe von Funkamateure über Pager und Digitalfunkgerät Meldungen vom BBK zu übermitteln. 
+
 Über die Seite des BBK-Bund ist eine JSON-Datei mit Gefahrenmeldungen abrufbar. 
 https://warnung.bund.de/bbk.mowas/gefahrendurchsagen.json
 

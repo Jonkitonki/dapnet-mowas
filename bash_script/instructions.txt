@@ -1,0 +1,4 @@
+USER: Benutzername zum Login bei Dapnet
+PASSWD: Passwort zum Login bei Dapnet
+CALLSIGN: Ziel callsign
+FROMCALLSIGN: Absender-Callsign
