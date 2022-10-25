@@ -1,0 +1,36 @@
+#gibt Datum, Art und Meldung raus
+curl https://warnung.bund.de/bbk.mowas/gefahrendurchsagen.json | jq  '.[] | select(.info[].area[].geocode[].valueName=="Vulkaneifel") | {Datum:.sent'
+
+#gibt das obige als Text aus
+curl -s https://warnung.bund.de/bbk.mowas/gefahrendurchsagen.json | jq -r '.[] | select(.info[].area[].geocode[].valueName=="Vulkaneifel") | .sent, .info[].event, .info[].headline'
+
+#nur Datum
+curl https://warnung.bund.de/bbk.mowas/gefahrendurchsagen.json | jq -r '.[] | select(.info[].area[].geocode[].valueName=="Vulkaneifel") | .sent' | 
+
+#nur Headline
+curl -s https://warnung.bund.de/bbk.mowas/gefahrendurchsagen.json | jq -r '.[] | select(.info[].area[].geocode[].valueName=="Vulkaneifel") | .info[].headline' 
+
+#zeigt alle Meldungen, die kein update sind
+curl -s https://warnung.bund.de/bbk.mowas/gefahrendurchsagen.json | jq -r '.[] | select(.msgType | index("Update") | not ) | .info[].headline'
+
+#zeigt alle Meldungen, die  update sind
+curl -s https://warnung.bund.de/bbk.mowas/gefahrendurchsagen.json | jq -r '.[] | select(.msgType | index("Update")) | .info[].headline'
+
+# filtert nach Meldungen, die Corona beinhalten
+curl -s https://warnung.bund.de/bbk.mowas/gefahrendurchsagen.json | jq -r '.[] | select(.info[].headline | contains("Corona")) | .info[].headline'
+
+# filtert nach Meldungen, die nicht Corona beinhalten
+curl -s https://warnung.bund.de/bbk.mowas/gefahrendurchsagen.json | jq -r '.[] | select(.info[].headline | contains("Corona") | not ) | .info[].headline'
+
+# filtert nach Meldungen, die nicht Corona beinhalten für Düsseldorf
+curl -s https://warnung.bund.de/bbk.mowas/gefahrendurchsagen.json | jq -r '.[] | select(.info[].headline | contains("Corona") | not ) | select(.info[].area[].geocode[].valueName=="Düsseldorf") | .info[].headline'
+
+# funktioniert, error 80 zeichen
+ curl https://warnung.bund.de/bbk.mowas/gefahrendurchsagen.json | jq  '.[] | select(.info[].area[].geocode[].valueName=="Vulkaneifel") | {Datum:.sent}' | curl -H "Content-Type: application/json" -X POST -u CALLSIGN:PASSWD -d '{ "text": "'"${Datum}"'", "callSignNames": ["CALLSIGN"], "transmitterGroupNames": ["dl-all"], "emergency": false }' http://www.hampager.de:8080/calls
+
+#Datum in Pipe
+curl -H "Content-Type: application/json" -X POST -u USER:PASSWD -d '{ "text": "CALLSIGN: Das ist eine Sendung über die REST-API", "callSignNames": ["CALLSIGN"], "transmitterGroupNames": ["dl-all"], "emergency": false }' http://www.hampager.de:8080/calls
+
+curl -H "Content-Type: application/json" -X POST -u USER:PASSWD -d '{ "text": --data "@test.json", "callSignNames": ["CALLSIGN"], "transmitterGroupNames": ["dl-all"], "emergency": false }' http://http://www.hampager.de:8080/calls
+
+
